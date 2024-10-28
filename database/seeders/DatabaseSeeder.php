@@ -15,24 +15,29 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-      
-        $users = [
+        $parkinglots = [
             [
-                'username' =>'Hezekiah Munene',
-                'email' => 'hezemunene01@gmail.com',
-                'password' => Hash::make('12345'),
-                'vehicle_lp' => 'KGM 602G',
-                'phone_number'=> '0712345678',
+                'pl_name' => 'PL_1',
+
             ],
             [
-                'username' =>'Loreim Ipsum',
-                'email' => 'loreiem01@gmail.com',
-                'password' => Hash::make('12345'),
-                'vehicle_lp' => 'KHM 604F',
-                'phone_number'=> '0712315678',
+                'pl_name' => 'PL_2',
+
+            ],
+            [
+                'pl_name' => 'PL_3',
+
+            ],
+            [
+                'pl_name' => 'PL_4',
+
+            ],
+            [
+                'pl_name' => 'PL_5',
+
             ],
         ];
-
-        DB::table('users')->insert($users);
+    
+        DB::table('parking_lots')->insert($parkinglots);
     }
 }

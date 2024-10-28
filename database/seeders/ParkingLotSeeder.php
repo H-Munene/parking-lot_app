@@ -12,6 +12,30 @@ class ParkingLotSeeder extends Seeder
      */
     public function run(): void
     {
-        //
+        $parkinglots = [
+            [
+                'pl_initials' => 'PL_1',
+
+            ],
+            [
+                'pl_initials' => 'PL_2',
+
+            ],
+            [
+                'pl_initials' => 'PL_3',
+
+            ],
+            [
+                'pl_initials' => 'PL_4',
+
+            ],
+            [
+                'pl_initials' => 'PL_5',
+
+            ],
+        ];
+    
+    DB::table('parking_lots')->insert($parkinglots);
+    
     }
 }

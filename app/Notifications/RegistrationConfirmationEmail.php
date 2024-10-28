@@ -40,7 +40,7 @@ class RegistrationConfirmationEmail extends Notification
         return (new MailMessage)
             ->subject('Registration Confirmation')
             ->greeting('Greetings, '.$this->user->username)
-            ->line('This is to confirm your registration for our parking service at '.$this->user->created_at->format('d/m/Y'))
+            ->line('This is to confirm your registration for our parking service on '.$this->user->created_at->format('d/m/Y'))
             ->line('Thank you for taking interest in our service');
     }
 

@@ -14,8 +14,8 @@ return new class extends Migration
         //
         Schema::create('parking_lots', function(Blueprint $table) {
             $table->id();
-            $table->string('status');
-            $table->timestamps();
+            $table->string('pl_name');
+            $table->boolean('occupied')->default(false);
         });
     }
 

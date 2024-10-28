@@ -22,7 +22,7 @@ class ParkingLotController extends Controller
      */
     public function create()
     {
-        //
+        
     }
 
     /**
