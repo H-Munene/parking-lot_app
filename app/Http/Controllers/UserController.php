@@ -6,15 +6,22 @@ use App\Models\User;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreUserRequest;
 use App\Http\Requests\UpdateUserRequest;
+use Illuminate\Support\Facades\DB;
 
 class UserController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
+
+     
     public function index()
     {
         //
+        $users = DB::table('users')->get();
+
+        return $users;
+
     }
 
     /**

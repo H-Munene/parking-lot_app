@@ -16,7 +16,7 @@ return new class extends Migration
             $table->string('username');
             $table->string('vehicle_lp')->unique();
             $table->string('email')->unique();
-            $table->Integer('phone_number')->unique();
+            $table->string('phone_number')->unique();
             $table->string('password');
             $table->rememberToken();
             $table->timestamps();
