@@ -27,6 +27,8 @@ class AuthController extends Controller
             'password'=>Hash::make($request->password),
             ]);
 
+        $user->notify(new RegistrationConfirmationEmail($user));
+
         return response()->json([
             'user' =>$user,
             'token'=>$user->createToken('token-name')->plainTextToken
