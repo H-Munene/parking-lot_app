@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\User;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 
 class AuthController extends Controller
 {
@@ -26,7 +27,10 @@ class AuthController extends Controller
             'password'=>Hash::make($request->password),
             ]);
 
-        return $user;
+        return response()->json([
+            'user' =>$user,
+            'token'=> $user->createToken('token-name')->plainTextToken,
+        ],201);
     }
 
     public function login() {
