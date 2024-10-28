@@ -18,15 +18,13 @@ class AuthController extends Controller
             'password'=> 'required|string|max:8'
         ]);
 
-        $user = User::firstorNew(
-            ['username' => $request->username],
-            ['vehicle_lp' => $request->vehicle_lp],
-            ['email'=>$request->email],
-            ['phone_number'=>$request->phone_number],
-            ['password'=>$request->password],
-        );
-
-        $user->save();
+        $user = User::create([
+            'username' => $request->username,
+            'vehicle_lp' => $request->vehicle_lp,
+            'email'=>$request->email,
+            'phone_number'=>$request->phone_number,
+            'password'=>Hash::make($request->password),
+            ]);
 
         return $user;
     }
