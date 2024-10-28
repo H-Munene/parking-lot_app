@@ -11,8 +11,13 @@ return new class extends Migration
      */
     public function up(): void
     {
+        //
         Schema::create('payments', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('ticket_id')->constrained();
+            $table->Integer('price');
+            $table->foreignId('payment_option_id')->constrained();
+            $table->boolean('payment status');
             $table->timestamps();
         });
     }
@@ -22,6 +27,7 @@ return new class extends Migration
      */
     public function down(): void
     {
+        //
         Schema::dropIfExists('payments');
     }
 };

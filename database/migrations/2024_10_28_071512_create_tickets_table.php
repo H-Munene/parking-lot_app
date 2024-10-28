@@ -13,6 +13,8 @@ return new class extends Migration
     {
         Schema::create('tickets', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('user_id')->constrained();
+            $table->foreignId('parking_lot_id')->constrained();//foreign id
             $table->timestamps();
         });
     }
@@ -22,6 +24,8 @@ return new class extends Migration
      */
     public function down(): void
     {
+        //
         Schema::dropIfExists('tickets');
     }
+
 };
