@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use App\Notifications\RegistrationConfirmationEmail;
+use App\Notifications\LoginConfirmationEmail;
 
 class AuthController extends Controller
 {
@@ -51,10 +52,13 @@ class AuthController extends Controller
             ]);
         }
 
+        //send login confirmation email
+        $user->notify(new LoginConfirmationEmail($user));
+
         return response()->json([
             'Status' => 'Logged in',
             'user' => $user,
             'token' => $user->createToken('token-name')->plainTextToken,
-        ]);
+        ], 200);
     }
 }

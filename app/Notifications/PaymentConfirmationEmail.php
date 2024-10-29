@@ -3,24 +3,25 @@
 namespace App\Notifications;
 
 use Carbon\Carbon;
-use App\Models\User;
+use App\Models\Payment;
+use App\Models\PaymentOption;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 
-class RegistrationConfirmationEmail extends Notification
+class PaymentConfirmationEmail extends Notification
 {
     use Queueable;
 
-    protected $user;
-
+    protected $payment;
     /**
      * Create a new notification instance.
      */
-    public function __construct(User $user)
+    public function __construct(Payment $payment, PaymentOption $paymentOption)
     {
-        $this->user = $user;
+        $this->payment = $payment;
+        $this->paymentOption = $paymentOption;
     }
 
     /**
@@ -39,10 +40,13 @@ class RegistrationConfirmationEmail extends Notification
     public function toMail(object $notifiable): MailMessage
     {
         return (new MailMessage)
-            ->subject('Registration Confirmation')
-            ->greeting('Greetings, '.$this->user->username)
-            ->line('This is to confirm your registration for our parking service on '. Carbon::parse($this->user->created_at)->format('d/m/Y h:i A'))
-            ->line('Thank you for taking interest in our service');
+            ->subject('Payment Confirmation')
+            ->greeting('Greetings,' )
+            ->line('This is to confirm your payment for ticket '.$this->payment->ticket_id)
+            ->line('Receipt Details:')
+            ->line('    price: Ksh.' .$this->payment->price)
+            ->line('    payment option: '.$this->paymentOption->payment_option)
+            ->line('    paid at: '.Carbon::parse($this->payment->created_at)->format('d/m/Y h:i A')); 
     }
 
     /**

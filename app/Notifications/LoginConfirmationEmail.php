@@ -9,10 +9,10 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 
-class RegistrationConfirmationEmail extends Notification
+class LoginConfirmationEmail extends Notification
 {
     use Queueable;
-
+    
     protected $user;
 
     /**
@@ -39,10 +39,9 @@ class RegistrationConfirmationEmail extends Notification
     public function toMail(object $notifiable): MailMessage
     {
         return (new MailMessage)
-            ->subject('Registration Confirmation')
-            ->greeting('Greetings, '.$this->user->username)
-            ->line('This is to confirm your registration for our parking service on '. Carbon::parse($this->user->created_at)->format('d/m/Y h:i A'))
-            ->line('Thank you for taking interest in our service');
+        ->subject('Login Confirmation')
+        ->greeting('Greetings, '.$this->user->username)
+        ->line('This is to confirm you have logged in at '. Carbon::now());
     }
 
     /**

@@ -8,6 +8,7 @@ use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\DB;
 
+
 class DatabaseSeeder extends Seeder
 {
     /**
@@ -39,5 +40,9 @@ class DatabaseSeeder extends Seeder
         ];
     
         DB::table('parking_lots')->insert($parkinglots);
+
+        $this->call([
+            PaymentOptionSeeder::class,
+        ]);
     }
 }
