@@ -12,7 +12,12 @@ use App\Notifications\LoginConfirmationEmail;
 class AuthController extends Controller
 {
 
-    public function register(Request $request) {
+    public function register() {
+
+        return view('register');
+    }
+
+    public function registerPost(Register $register) {
         $request->validate([
             'username' => 'required|string|max:50',
             'vehicle_lp'=>'required|string|max:8|unique:users',
@@ -37,28 +42,28 @@ class AuthController extends Controller
         ],201);
     }
 
-    public function login(Request $request) {
-         //ensure its formatted as email and password
-        // $request->validate([
-        //     'email' => 'required|string|email',
-        //     'password' => 'required|string',
-        // ]);
+    //retrieve login view
+    public function login() {
+        return view('login');
+    }
 
-        // $user = User::where('email', $request->email)->first();
+    public function loginPost(Request $request) {
+        //email, password validation
+        $request->validate([
+            'email' => 'required|string|email',
+            'password' => 'required|string',
+        ]);
 
-        // if (! $user || ! Hash::check($request->password, $user->password)) {
-        //     throw ValidationException::withMessages([
-        //         'error' => ['credentials are incorrect.'],
-        //     ]);
-        // }
+        $user = User::where('email', $request->email)->first();
 
-        // //send login confirmation email
-        // $user->notify(new LoginConfirmationEmail($user));
+        if (! $user || ! Hash::check($request->password, $user->password)) {
+            throw ValidationException::withMessages([
+                'error' => ['credentials are incorrect.'],
+            ]);
+        }
 
-
-        // get login.blade.php
-        return view("login");
-
+        //send login confirmation email
+        $user->notify(new LoginConfirmationEmail($user));
 
          return response()->json([
              'Status' => 'Logged in',

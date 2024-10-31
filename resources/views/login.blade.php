@@ -5,13 +5,13 @@
 
 {{-- define css link --}}
 @section('css')
-    <link rel="stylesheet" href="{{ asset('css/login.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/form.css') }}">
 @endsection
 
 {{-- page content --}}
 @section('content')
 <div class="container">
-    <form action="" method="post">
+    <form action="{{route('login.post')}}" method="post">
         @csrf
         <div class="inputs">
             <div class="fields">
@@ -22,7 +22,7 @@
             </div>
 
             <div class="submit">
-                <button class="cta">
+                <button class="cta" type="submit">
                 <span class="hover-underline-animation"> Login </span>
                 <svg
                     id="arrow-horizontal"
@@ -53,12 +53,12 @@
                   <div class="text">
                     <span>Not</span>
                     <span>a</span>
-                    <span>user?</span>
+                    <span>user ?</span>
                   </div>
                   <div class="clone">
-                    <span>Register</span>
+                    <a href="{{ route('register.get') }}">Register</a>
+                    {{-- <span>Register</span> --}}
                   </div>
-
                 </button>
 
             </div>

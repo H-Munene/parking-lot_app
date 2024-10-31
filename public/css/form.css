@@ -7,7 +7,12 @@ input::placeholder {
 .container{
     display: flex;
     justify-content: center;
-    padding:  150px;
+    padding:  100px;
+}
+
+a {
+    text-decoration-line: none;
+    color: black;
 }
 
 .inputs{
