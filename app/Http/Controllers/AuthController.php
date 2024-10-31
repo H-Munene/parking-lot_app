@@ -39,22 +39,25 @@ class AuthController extends Controller
 
     public function login(Request $request) {
          //ensure its formatted as email and password
-         $request->validate([
-            'email' => 'required|string|email',
-            'password' => 'required|string',
-        ]);
+        // $request->validate([
+        //     'email' => 'required|string|email',
+        //     'password' => 'required|string',
+        // ]);
 
-        $user = User::where('email', $request->email)->first();
+        // $user = User::where('email', $request->email)->first();
 
-        if (! $user || ! Hash::check($request->password, $user->password)) {
-            throw ValidationException::withMessages([
-                'error' => ['credentials are incorrect.'],
-            ]);
-        }
+        // if (! $user || ! Hash::check($request->password, $user->password)) {
+        //     throw ValidationException::withMessages([
+        //         'error' => ['credentials are incorrect.'],
+        //     ]);
+        // }
 
-        //send login confirmation email
-        $user->notify(new LoginConfirmationEmail($user));
+        // //send login confirmation email
+        // $user->notify(new LoginConfirmationEmail($user));
 
+
+        // get login.blade.php
+        return view("login");
 
 
          return response()->json([

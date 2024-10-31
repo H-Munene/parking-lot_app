@@ -10,7 +10,7 @@ input::placeholder {
     padding:  150px;
 }
 
-.form{
+.inputs{
     display: flex;
     flex-direction: column;
 }
