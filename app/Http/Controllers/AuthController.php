@@ -11,7 +11,7 @@ use App\Notifications\LoginConfirmationEmail;
 
 class AuthController extends Controller
 {
-    
+
     public function register(Request $request) {
         $request->validate([
             'username' => 'required|string|max:50',
@@ -32,8 +32,8 @@ class AuthController extends Controller
         $user->notify(new RegistrationConfirmationEmail($user));
 
         return response()->json([
-            'user' =>$user,
-            'token'=>$user->createToken('token-name')->plainTextToken
+             'user' =>$user,
+             'token'=>$user->createToken('token-name')->plainTextToken
         ],201);
     }
 
@@ -55,10 +55,12 @@ class AuthController extends Controller
         //send login confirmation email
         $user->notify(new LoginConfirmationEmail($user));
 
-        return response()->json([
-            'Status' => 'Logged in',
-            'user' => $user,
-            'token' => $user->createToken('token-name')->plainTextToken,
-        ], 200);
+
+
+         return response()->json([
+             'Status' => 'Logged in',
+             'user' => $user,
+             'token' => $user->createToken('token-name')->plainTextToken,
+         ], 200);
     }
 }
