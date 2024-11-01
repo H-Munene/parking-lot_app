@@ -17,7 +17,7 @@ class AuthController extends Controller
         return view('register');
     }
 
-    public function registerPost(Register $register) {
+    public function registerPost(Request $register) {
 
         try {
             $request->validate([
@@ -38,15 +38,16 @@ class AuthController extends Controller
 
             $user->notify(new RegistrationConfirmationEmail($user));
 
-            return redirect(route('login'))->with('success', 'User created successfully');
-        } catch (\Exception $e) {
-            return redirect(route('register'))->with('error', 'Unable to register user');
-        }
+            return response()->json([
+             'user' =>$user,
+             'token'=>$user->createToken('token-name')->plainTextToken
+            ],201);
 
-        // return response()->json([
-        //      'user' =>$user,
-        //      'token'=>$user->createToken('token-name')->plainTextToken
-        // ],201);
+            // return redirect(route('login'))->with('success', 'User created successfully');
+        } catch (\Exception $e) {
+            // return redirect(route('login'))->with('error', 'Unable to register user');
+            return response()->json([ 'error' => 'Unable to register user. Please try again.', 'message' => $e->getMessage()], 500);
+        }
     }
 
     //retrieve login view
