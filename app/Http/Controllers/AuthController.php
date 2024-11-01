@@ -18,28 +18,35 @@ class AuthController extends Controller
     }
 
     public function registerPost(Register $register) {
-        $request->validate([
-            'username' => 'required|string|max:50',
-            'vehicle_lp'=>'required|string|max:8|unique:users',
-            'email'=> 'required|email|unique:users',
-            'phone_number'=> 'required|string|unique:users',
-            'password'=> 'required|string|max:8'
-        ]);
 
-        $user = User::create([
-            'username' => $request->username,
-            'vehicle_lp' => $request->vehicle_lp,
-            'email'=>$request->email,
-            'phone_number'=>$request->phone_number,
-            'password'=>Hash::make($request->password),
+        try {
+            $request->validate([
+                'username' => 'required|string|max:50',
+                'vehicle_lp'=>'required|string|max:8|unique:users',
+                'email'=> 'required|email|unique:users',
+                'phone_number'=> 'required|string|unique:users',
+                'password'=> 'required|string|max:8'
             ]);
 
-        $user->notify(new RegistrationConfirmationEmail($user));
+            $user = User::create([
+                'username' => $request->username,
+                'vehicle_lp' => $request->vehicle_lp,
+                'email'=>$request->email,
+                'phone_number'=>$request->phone_number,
+                'password'=>Hash::make($request->password),
+            ]);
 
-        return response()->json([
-             'user' =>$user,
-             'token'=>$user->createToken('token-name')->plainTextToken
-        ],201);
+            $user->notify(new RegistrationConfirmationEmail($user));
+
+            return redirect(route('login'))->with('success', 'User created successfully');
+        } catch (\Exception $e) {
+            return redirect(route('register'))->with('error', 'Unable to register user');
+        }
+
+        // return response()->json([
+        //      'user' =>$user,
+        //      'token'=>$user->createToken('token-name')->plainTextToken
+        // ],201);
     }
 
     //retrieve login view
@@ -54,12 +61,13 @@ class AuthController extends Controller
             'password' => 'required|string',
         ]);
 
+
+
+
         $user = User::where('email', $request->email)->first();
 
         if (! $user || ! Hash::check($request->password, $user->password)) {
-            throw ValidationException::withMessages([
-                'error' => ['credentials are incorrect.'],
-            ]);
+
         }
 
         //send login confirmation email
