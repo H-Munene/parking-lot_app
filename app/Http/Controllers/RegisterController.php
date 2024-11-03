@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\RegisterRequest;
 use Illuminate\Http\Request;
 
 class RegisterController extends Controller
@@ -13,6 +14,10 @@ class RegisterController extends Controller
     public function index()
     {
         //
+    }
+
+    public function register(RegisterRequest $request) {
+
     }
 
     /**
@@ -36,7 +41,7 @@ class RegisterController extends Controller
      */
     public function show(string $id)
     {
-        //
+        return view('register');
     }
 
     /**

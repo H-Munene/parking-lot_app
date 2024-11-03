@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\RegisterController;
 
 // Route::post('register', [AuthController::class, 'register'])->name('register');
 
@@ -14,7 +15,7 @@ Route::get('/welcome', function () {
 Route::get('/login', [AuthController::class, 'login'])->name('login');
 Route::post('/login', [AuthController::class, 'loginPost'])->name('login.post');
 
-Route::get('/register', [UserController::class, 'create'])->name('register');
+Route::get('/register', [RegisterController::class, 'show'])->name('register');
 Route::post('/register', [AuthController::class, 'registerPost'])->name('register.post');
 
 Route::middleware(['auth:sanctum'])->group(function () {

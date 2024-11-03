@@ -20,11 +20,13 @@ class AuthController extends Controller
 
     public function registerPost(Request $request) {
         { try { //Validate the request
-            $request->validate([ 'username' => 'required|string|max:50',
-            'vehicle_lp' => 'required|string|max:8|unique:users',
-            'email' => 'required|email|unique:users',
-            'phone_number' => 'required|string|unique:users',
-            'password' => 'required|string|min:8|confirmed', ]);
+            $request->validate([
+                'username' => 'required|string|max:50',
+                'vehicle_lp' => 'required|string|max:8|unique:users',
+                'email' => 'required|email|unique:users',
+                'phone_number' => 'required|string|unique:users',
+                'password' => 'required|string|min:8|confirmed',
+                ]);
 
             // Create the user
             $user = User::create([
