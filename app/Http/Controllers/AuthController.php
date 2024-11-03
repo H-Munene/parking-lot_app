@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\User;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use App\Notifications\RegistrationConfirmationEmail;
 use App\Notifications\LoginConfirmationEmail;
@@ -17,38 +18,32 @@ class AuthController extends Controller
         return view('register');
     }
 
-    public function registerPost(Request $register) {
+    public function registerPost(Request $request) {
+        { try { //Validate the request
+            $request->validate([ 'username' => 'required|string|max:50',
+            'vehicle_lp' => 'required|string|max:8|unique:users',
+            'email' => 'required|email|unique:users',
+            'phone_number' => 'required|string|unique:users',
+            'password' => 'required|string|min:8|confirmed', ]);
 
-        try {
-            $request->validate([
-                'username' => 'required|string|max:50',
-                'vehicle_lp'=>'required|string|max:8|unique:users',
-                'email'=> 'required|email|unique:users',
-                'phone_number'=> 'required|string|unique:users',
-                'password'=> 'required|string|max:8'
-            ]);
-
+            // Create the user
             $user = User::create([
-                'username' => $request->username,
-                'vehicle_lp' => $request->vehicle_lp,
-                'email'=>$request->email,
-                'phone_number'=>$request->phone_number,
-                'password'=>Hash::make($request->password),
-            ]);
+            'username' => $request->username,
+            'vehicle_lp' => $request->vehicle_lp,
+            'email' => $request->email,
+            'phone_number' => $request->phone_number,
+            'password' => Hash::make($request->password), ]);
 
+            // Send notification
             $user->notify(new RegistrationConfirmationEmail($user));
-
-            return response()->json([
-             'user' =>$user,
-             'token'=>$user->createToken('token-name')->plainTextToken
-            ],201);
-
-            // return redirect(route('login'))->with('success', 'User created successfully');
-        } catch (\Exception $e) {
-            // return redirect(route('login'))->with('error', 'Unable to register user');
-            return response()->json([ 'error' => 'Unable to register user. Please try again.', 'message' => $e->getMessage()], 500);
+            // Redirect to login with success message
+            return redirect(route('login'))->with('success', 'User created successfully');
+        } catch (\Exception $e){
+            // Redirect back with error message
+            return redirect(route('register'))->with('error', 'Unable to register user');
         }
     }
+}
 
     //retrieve login view
     public function login() {
@@ -62,22 +57,18 @@ class AuthController extends Controller
             'password' => 'required|string',
         ]);
 
+        $credentials = $request->only("email", "password");
 
+        if(Auth::attempt($credentials)) {
+            //get user
+            $user = User::where('email', $request->email)->first();
+            //send user email
+            $user->notify(new LoginConfirmationEmail($user));
 
-
-        $user = User::where('email', $request->email)->first();
-
-        if (! $user || ! Hash::check($request->password, $user->password)) {
-
+            return redirect()->intended(route('home'));
         }
 
-        //send login confirmation email
-        $user->notify(new LoginConfirmationEmail($user));
-
-         return response()->json([
-             'Status' => 'Logged in',
-             'user' => $user,
-             'token' => $user->createToken('token-name')->plainTextToken,
-         ], 200);
+        return redirect(route('login'))->with('error', 'Login Failed');
     }
+
 }

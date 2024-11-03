@@ -31,15 +31,19 @@
             </div>
             {{-- vehicle license plate --}}
             <div class="fields">
-                <input placeholder="Vehicle License Plate" class="input inp-vehiclelp" name="vehicle_lp" type="vehicle_lp" required/>
+                <input placeholder="Vehicle License Plate" class="input inp-vehiclelp" name="vehicle_lp" type="text" required/>
             </div>
             {{-- phone number --}}
             <div class="fields">
-                <input placeholder="Phone number" class="input inp-phone" name="phone" type="text" required/>
+                <input placeholder="Phone number" class="input inp-phone" name="phone_number" type="text" required/>
             </div>
             {{-- password --}}
             <div class="fields">
                 <input placeholder="password" class="input i" name="password" type="password" required/>
+            </div>
+            {{-- confirm password --}}
+            <div class="fields">
+                <input placeholder="confirm password" class="input i" name="confirm_password" type="password" required/>
             </div>
             {{-- submit --}}
             <div class="submit">
