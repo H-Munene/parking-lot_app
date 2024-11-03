@@ -17,7 +17,8 @@ class RegisterController extends Controller
         //
     }
 
-    public function register(RegisterRequest $request) {
+    public function register(RegisterRequest $request): \Illuminate\Foundation\Application|\Illuminate\Routing\Redirector|\Illuminate\Http\RedirectResponse
+    {
         $user = User::create($request->validated());
 
         auth()->login($user);

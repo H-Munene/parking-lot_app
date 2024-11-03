@@ -13,10 +13,10 @@ Route::get('/welcome', function () {
 });
 
 Route::get('/login', [LoginController::class, 'show'])->name('login');
-Route::post('/login', [AuthController::class, 'loginPost'])->name('login.post');
+Route::post('/login', [LoginController::class, 'login'])->name('login.post');
 
 Route::get('/register', [RegisterController::class, 'show'])->name('register');
-Route::post('/register', [AuthController::class, 'registerPost'])->name('register.post');
+Route::post('/register', [RegisterController::class, 'register'])->name('register.post');
 
 Route::middleware(['auth:sanctum'])->group(function () {
     Route::view("/", "home")->name('home');

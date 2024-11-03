@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\LoginRequest;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class LoginController extends Controller
 {
@@ -39,6 +41,21 @@ class LoginController extends Controller
         return view('login');
     }
 
+    public function login(LoginRequest $request): \Illuminate\Http\RedirectResponse
+    {
+        $credentials = $request->only("email", "password");
+
+        if(!Auth::validate($credentials)) :
+            return redirect()->to('login')->with('error', 'Invalid Credentials');
+        endif;
+
+        $user = Auth::getProvider()->retrieveByCredentials($credentials);
+
+        Auth::login($user);
+
+        return $this->authenticated($request, $user);
+    }
+
     /**
      * Show the form for editing the specified resource.
      */
@@ -61,5 +78,10 @@ class LoginController extends Controller
     public function destroy(string $id)
     {
         //
+    }
+
+    protected function authenticated(Request $request, $user): \Illuminate\Http\RedirectResponse
+    {
+        return redirect()->intended();
     }
 }
