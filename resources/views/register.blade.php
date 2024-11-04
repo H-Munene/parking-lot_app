@@ -8,43 +8,61 @@
 <div class="container">
     <form action="{{route('register.post')}}" method="post">
         @csrf
+        @error('email')
+        <div class="badges">
+            <span disabled class="red">{{$message}}</span>
+        </div>
+        @enderror
 
-        @if (session()->has('error'))
+        @error('vehicle_lp')
         <div class="badges">
-            <button disabled class="red">{{session()->get('error')}}</button>
+            <span disabled class="red">{{$message}}</span>
         </div>
-        @endif
-        @if (session()->has('success'))
+        @enderror
+
+        @error('password')
         <div class="badges">
-            <button disabled class="green">{{session()->get('success')}}</button>
+            <span disabled class="red">{{$message}}</span>
         </div>
-        @endif
+        @enderror
+
+        @error('phone_number')
+        <div class="badges">
+            <span disabled class="red">{{$message}}</span>
+        </div>
+        @enderror
 
         <div class="inputs">
             {{-- username --}}
             <div class="fields">
-                <input placeholder="Username" class="input inp-username" name="username" type="text" required/>
+                <input placeholder="Username" class="input inp-username" name="username" type="text" value="{{old('username')}}" required/>
             </div>
+
             {{-- email --}}
             <div class="fields">
-                <input placeholder="Email address" class="input inp-email" name="email" type="email" required/>
+                <input placeholder="Email address" class="input inp-email" name="email" type="email" value="{{old('email')}}" required/>
             </div>
+
             {{-- vehicle license plate --}}
             <div class="fields">
-                <input placeholder="Vehicle License Plate" class="input inp-vehiclelp" name="vehicle_lp" type="text" required/>
+                <input placeholder="Vehicle License Plate" class="input inp-vehiclelp" name="vehicle_lp" type="text" value="{{old('vehicle_lp')}}" required/>
             </div>
+
             {{-- phone number --}}
             <div class="fields">
-                <input placeholder="Phone number" class="input inp-phone" name="phone_number" type="text" required/>
+                <input placeholder="Phone number" class="input inp-phone" name="phone_number" type="text" value="{{old('phone_number')}}" required/>
             </div>
+
             {{-- password --}}
             <div class="fields">
                 <input placeholder="password" class="input i" name="password" type="password" required/>
             </div>
+
             {{-- confirm password --}}
             <div class="fields">
-                <input placeholder="confirm password" class="input i" name="confirm_password" type="password" required/>
+                <input placeholder="confirm password" class="input i" name="password_confirmation" type="password" required/>
             </div>
+
             {{-- submit --}}
             <div class="submit">
                 <button class="cta" type="submit">

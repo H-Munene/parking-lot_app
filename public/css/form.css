@@ -7,7 +7,7 @@ input::placeholder {
 .container{
     display: flex;
     justify-content: center;
-    padding:  75px;
+    padding:  50px;
 }
 
 a {
@@ -30,9 +30,9 @@ a {
 }
 
 .input {
-    font-family: "SF Pro";
-    max-width: 190px;
-    padding: 0.875rem;
+    font-family: "Montserrat", system-ui;
+    max-width: 195px;
+    padding: 1rem;
     font-size: 1rem;
     border: 1.5px solid #000;
     border-radius: 0.5rem;
@@ -99,8 +99,6 @@ a {
     transform: scaleX(1);
     transform-origin: bottom left;
   }
-
-
 
   /* or double sides */
 .content__or-text {
@@ -215,15 +213,11 @@ a {
 
   .badges {
     display: flex;
-    flex-direction: column;
-    gap: 1rem; /* 16px */
     align-items: center;
-    flex-wrap: wrap;
-    justify-content: center;
-    padding-bottom: 10px;
+    justify-content: flex-start;
   }
 
-  .badges > button {
+  .badges > span {
     font-size: 0.875rem; /* 14px */
     line-height: 1.25rem; /* 20px */
     padding: 2px .5rem; /* 8px*/

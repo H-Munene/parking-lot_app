@@ -4,39 +4,17 @@ namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\LoginRequest;
+use App\Notifications\LoginConfirmationEmail;
+use Illuminate\Contracts\View\View;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 class LoginController extends Controller
 {
     /**
-     * Display a listing of the resource.
-     */
-    public function index()
-    {
-        //
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
-    {
-        //
-    }
-
-    /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show() : View
     {
         return view('login');
     }
@@ -49,39 +27,24 @@ class LoginController extends Controller
             return redirect()->to('login')->with('error', 'Invalid Credentials');
         endif;
 
+        /*
+         * Auth::getProvider():
+         *  This gets the user provider configured for the authentication guard
+         *  being used (typically the default guard, which is users)
+         *
+         * retrieveByCredentials($credentials):
+            This method fetches a user from the user provider based on the given credentials.
+            The $credentials array usually includes data like email and password.
+         */
         $user = Auth::getProvider()->retrieveByCredentials($credentials);
 
         Auth::login($user);
 
-        return $this->authenticated($request, $user);
+        return redirect()->intended(route('home'));
+
+        //send login email
+        $user->notify(new LoginConfirmationEmail($user));
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
-    {
-        //
-    }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
-    {
-        //
-    }
-
-    protected function authenticated(Request $request, $user): \Illuminate\Http\RedirectResponse
-    {
-        return redirect()->intended();
-    }
 }

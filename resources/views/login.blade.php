@@ -14,22 +14,23 @@
     <form action="{{route('login.post')}}" method="post">
         @csrf
 
-        @if (session()->has('error'))
-        <div class="badges">
-            <button disabled class="red">{{session()->get('error')}}</button>
-        </div>
-        @endif
-        @if (session()->has('success'))
-        <div class="badges">
-            <button disabled class="green">{{session()->get('success')}}</button>
-        </div>
-        @endif
-
-
-
         <div class="inputs">
+
+            @if($errors->any())
+                <div class="badges">
+                    <span disabled class="red">Invalid Credentials</span>
+                </div>
+            @endif
+
+            @if (session()->has('success'))
+                <div class="badges">
+                    <span disabled class="green">{{session()->get('success')}}</span>
+                </div>
+            @endif
+
+{{--            input fields--}}
             <div class="fields">
-                <input placeholder="Email address" class="input inp-email" name="email" type="email" required/>
+                <input placeholder="Email address" class="input inp-email" name="email" type="email" value="{{old('email')}}" required/>
             </div>
             <div class="fields">
                 <input placeholder="password" class="input i" name="password" type="password" required/>
