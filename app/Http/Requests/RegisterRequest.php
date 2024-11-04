@@ -26,7 +26,7 @@ class RegisterRequest extends FormRequest
             'vehicle_lp' => 'required|string|max:8|unique:users',
             'email' => 'required|email|unique:users',
             'phone_number' => 'required|string|unique:users',
-            'password' => 'required|string|min:8|confirmed',
+            'password' => 'required|string|max:8',
             'password_confirmation' => 'required|same:password',
         ];
     }

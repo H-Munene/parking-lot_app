@@ -38,7 +38,7 @@ class UserController extends Controller
      */
     public function store(StoreUserRequest $request)
     {
-        { try { //Validate the request
+        try { //Validate the request
             $request->validate([ 'username' => 'required|string|max:50',
             'vehicle_lp' => 'required|string|max:8|unique:users',
             'email' => 'required|email|unique:users',
@@ -61,7 +61,7 @@ class UserController extends Controller
             // Redirect back with error message
             return redirect(route('register'))->with('error', 'Unable to register user');
         }
-    }
+
 }
 
     /**

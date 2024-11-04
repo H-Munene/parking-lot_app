@@ -19,22 +19,21 @@ class AuthController extends Controller
     }
 
     public function registerPost(Request $request) {
-        { try { //Validate the request
+        try { //Validate the request
             $request->validate([
                 'username' => 'required|string|max:50',
                 'vehicle_lp' => 'required|string|max:8|unique:users',
                 'email' => 'required|email|unique:users',
                 'phone_number' => 'required|string|unique:users',
-                'password' => 'required|string|min:8|confirmed',
-                ]);
+                'password' => 'required|string|max:8']);
 
             // Create the user
             $user = User::create([
-            'username' => $request->username,
-            'vehicle_lp' => $request->vehicle_lp,
-            'email' => $request->email,
-            'phone_number' => $request->phone_number,
-            'password' => Hash::make($request->password), ]);
+                'username' => $request->username,
+                'vehicle_lp' => $request->vehicle_lp,
+                'email' => $request->email,
+                'phone_number' => $request->phone_number,
+                'password' => Hash::make($request->password), ]);
 
             // Send notification
             $user->notify(new RegistrationConfirmationEmail($user));
@@ -44,7 +43,6 @@ class AuthController extends Controller
             // Redirect back with error message
             return redirect(route('register'))->with('error', 'Unable to register user');
         }
-    }
 }
 
     //retrieve login view
